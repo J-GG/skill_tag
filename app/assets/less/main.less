@@ -1,44 +1,55 @@
 .btn-primary {
   background: #00A4BB;
   border-color: #1e7785;
+
+  &:hover,
+  &:active,
+  &:focus {
+    background: #1e7785;
+  }
 }
-.btn-primary:hover,
-.btn-primary:active,
-.btn-primary:focus {
-  background: #1e7785;
-}
+
 .skills {
   position: relative;
 }
+
 .skills__list-area--editable {
   cursor: pointer;
 }
+
 .skills__list-area--hidden {
   display: none;
 }
+
 .skills__edit-area {
   background: #F5F5F5;
   border: 1px solid #ddd;
   padding: 30px 30px 20px;
   border-radius: 4px;
 }
+
 .skills__edit-area--hidden {
   display: none;
 }
+
 .skills__list-items {
   list-style: none;
   padding: 0;
 }
+
 .skills__item {
   display: inline-block;
   margin-bottom: 30px;
 }
+
 .skills__item--hidden {
   display: none;
 }
+
 .skills__endorsable {
   cursor: pointer;
 }
+
 .skills__nb-endorsement {
   display: inline-block;
   position: relative;
@@ -48,6 +59,7 @@
   font-weight: 500;
   text-align: center;
 }
+
 .skills__nb-endorsement--big {
   width: 30px;
   height: 30px;
@@ -55,6 +67,7 @@
   font-size: 12px;
   border-radius: 30px;
 }
+
 .skills__nb-endorsement--small {
   width: 26px;
   height: 26px;
@@ -62,6 +75,7 @@
   font-size: 12px;
   border-radius: 26px;
 }
+
 .skills__icon-endorsement:after {
   content: '+';
   position: absolute;
@@ -70,9 +84,11 @@
   background-color: #00A4BB;
   color: #fff;
 }
+
 .skills__icon-endorsement:hover:after {
   transform: scale3d(1.2, 1.2, 1);
 }
+
 .skills__icon-endorsement--big:after {
   height: 15px;
   width: 15px;
@@ -80,6 +96,7 @@
   line-height: 14px;
   border-radius: 15px;
 }
+
 .skills__icon-endorsement--small:after {
   height: 13px;
   width: 13px;
@@ -87,11 +104,13 @@
   line-height: 12px;
   border-radius: 13px;
 }
+
 .skills__nb-endorsement--endorsed {
   color: white;
   background: #75797C;
   border-color: #75797C;
 }
+
 .skills__suggest-button,
 .skills__suggest,
 .skills__edit-button {
@@ -99,6 +118,7 @@
   right: 0;
   top: 0;
 }
+
 .basic-button {
   position: absolute;
   right: 0;
@@ -112,50 +132,59 @@
   border-radius: 3px;
   cursor: pointer;
   text-decoration: none;
+
+  &:hover {
+    background: #00A4BB;
+    color: #fff;
+    text-decoration: none;
+  }
+
+  &:before {
+    content: '+';
+    margin-right: 4px;
+    line-height: 12px;
+    width: 12px;
+    display: inline-block;
+    height: 12px;
+    text-align: center;
+    color: white;
+    background: #00A4BB;
+    border-radius: 50%;
+  }
+  &:hover:before {
+    color: #00A4BB;
+    background: white;
+  }
 }
-.basic-button:hover {
-  background: #00A4BB;
-  color: #fff;
-  text-decoration: none;
-}
-.basic-button:before {
-  content: '+';
-  margin-right: 4px;
-  line-height: 12px;
-  width: 12px;
-  display: inline-block;
-  height: 12px;
-  text-align: center;
-  color: white;
-  background: #00A4BB;
-  border-radius: 50%;
-}
-.basic-button:hover:before {
-  color: #00A4BB;
-  background: white;
-}
+
 .skills__suggest-button--hidden {
   display: none;
 }
+
 .skills__edit-area-buttons {
   text-align: right;
   margin-top: 5px;
 }
+
 .skills__suggest--hidden {
   display: none;
 }
+
 .skills__input-suggest {
   width: auto;
   display: inline-block;
 }
+
 .cancel-button {
   color: #9DA0A4;
   font-size: 12px;
   cursor: pointer;
+
+  &:hover {
+    color: #9DA0A4;
+  }
 }
-.cancel-button:hover {
-  color: #9DA0A4;
-}
+
 .skills__no-skill--hidden {
   display: none;
 }

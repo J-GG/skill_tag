@@ -1,0 +1,83 @@
+@import toolbox.SessionHelper
+@(account: Account, privateProfile: Boolean)
+
+@displaySkill(skill: Skill, size: String) = {
+    @defining(SessionHelper.getAccount(session())) {  currentUser: Account =>
+        @defining(currentUser != null && skill.getEndorsements.toList.exists(endorsement => endorsement.getEndorser.getId == currentUser.getId): Boolean) { userHasEndorsedSkill: Boolean =>
+            <span class="skills__item @if(!privateProfile && currentUser != null) {skills__endorsable}"
+                @if(!privateProfile) {
+                    data-url="@routes.ProfileController.GET_AJAXEndorseSkill(skill.getId)"
+                }
+            data-size="@size">
+                <span class="skills__nb-endorsement skills__nb-endorsement--@size
+                    @if(currentUser != null && !privateProfile && !userHasEndorsedSkill) {skills__icon-endorsement skills__icon-endorsement--big}
+                    @if(userHasEndorsedSkill) {skills__nb-endorsement--endorsed}">
+                @skill.getEndorsements.size
+                </span>
+                <span class="skills__name">@skill.getName</span>
+            </span>
+        }
+    }
+}
+
+@BaseView("TITLE.PROFILE", javaScript) {
+    <div class="row">
+        <div class="col-xs-5">
+            <h1>@account.getUsername</h1>
+
+            <div class="skills">
+                <h2>@Messages("PROFILE.SKILLS")</h2>
+
+                @if(SessionHelper.getAccount(session()) != null){
+                    <span id="template-skills_item" data-url="@routes.ProfileController.GET_AJAXEndorseSkill(0)" class="skills__item skills__item--hidden skills__endorsable">
+                        <span class="skills__nb-endorsement skills__nb-endorsement--endorsed"></span>
+                        <span class="skills__name"></span>
+                    </span>
+                    @if(!privateProfile) {
+                        <a class="skills__suggest-button basic-button">@Messages("PROFILE.SKILLS.ENDORSE")</a>
+                        <div class="skills__suggest skills__suggest--hidden form-group">
+                            <input type="text" class="form-control skills__input-suggest" placeholder="Input skill..." autocomplete="off" spellcheck="false" autofocus>
+                            <button type="submit" data-url="@controllers.routes.ProfileController.POST_AJAXSuggestSkill(account.getId)" class="skills__submit-suggest btn btn-primary">@Messages("COMMON.SUBMIT")</button>
+                            <a class="skills__cancel-suggest cancel-button">@Messages("COMMON.CANCEL")</a>
+                        </div>
+                    } else{
+                        <a class="skills__edit-button basic-button">@Messages("COMMON.EDIT")</a>
+                    }
+                }
+                <div class="skills__list-area @if(privateProfile){skills__list-area--editable}">
+                    <span class="skills__no-skill @if(account.getSkills.size() > 0){skills__no-skill--hidden}">@Messages("PROFILE.SKILLS.NO_SKILL")</span>
+
+                    <ul class="skills__list-items">
+                    @for((skill, index) <- account.getSkills.zipWithIndex if index < 6){
+                        <li>
+                            @displaySkill(skill, "big")
+                        </li>
+                    }
+                    </ul>
+                    @for((skill, index) <- account.getSkills.zipWithIndex if index >= 6){
+                        @displaySkill(skill, "small")
+                    }
+            </div>
+
+            @if(privateProfile){
+                <div class="skills__edit-area skills__edit-area--hidden">
+                    <select data-url="@controllers.routes.ProfileController.POST_AJAXRelatedSkills()" id="skills-select" name="skills[]" multiple="multiple">
+                    @for((skill, index) <- account.getSkills.zipWithIndex) {
+                        <option value="@skill.getName" selected>@skill.getName</option>
+                    }
+                    </select>
+
+                    <div class="skills__edit-area-buttons">
+                        <button type="submit" data-url="@controllers.routes.ProfileController.POST_AJAXEditSkills()" class="skills__edit-submit btn btn-primary">@Messages("COMMON.SUBMIT")</button>
+                        <a class="skills__edit-cancel cancel-button">@Messages("COMMON.CANCEL")</a>
+                    </div>
+                </div>
+            }
+            </div>
+        </div>
+    </div>
+}
+
+@javaScript = {
+    <script src="@routes.Assets.at("javascripts/profile.js")" type="text/javascript"></script>
+}

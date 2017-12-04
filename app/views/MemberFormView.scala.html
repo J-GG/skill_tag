@@ -1,0 +1,34 @@
+@import forms.MemberForm
+@(form: Form[_ <: MemberForm] = null)
+
+@BaseView("TITLE.MEMBER", null) {
+    <div class="row">
+        <div class="col-xs-offset-4 col-xs-3">
+            <form action="@routes.MemberController.POST_Member" method="POST">
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" required minlength="3" maxlength="25" class="form-control" id="username" name="username" placeholder="Username"
+                        @if(form != null) {
+                            value="@form("username").getValue.orElse("")"
+                            }>
+                    @common.FormErrorView(form, "username")
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" required minlength="6" class="form-control" id="password" name="password" placeholder="Password">
+                    @common.FormErrorView(form, "password")
+                </div>
+
+                <button type="submit" name="register" value="true" class="btn btn-danger">@Messages("MEMBER.REGISTER")</button>
+                <button type="submit" name="register" value="false" class="btn btn-primary pull-right">@Messages("MEMBER.LOGIN")</button>
+                @if(form != null && form.hasGlobalErrors) {
+                    <div class="text-danger text-center">
+                        @for(error <- form.globalErrors) {
+                            <p>@error.format(messages())</p>
+                        }
+                    </div>
+                }
+            </form>
+        </div>
+    </div>
+}

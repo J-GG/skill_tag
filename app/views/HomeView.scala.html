@@ -1,0 +1,12 @@
+@(accounts: List[Account])
+
+@BaseView("TITLE.HOME", null) {
+    <div class="row">
+        <h1>Users</h1>
+        <ul>
+            @for(account <- accounts) {
+                <li><a href="@routes.ProfileController.GET_Profile(account.getId())">@account.getUsername</a></li>
+            }
+        </ul>
+    </div>
+}

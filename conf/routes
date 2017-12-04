@@ -2,10 +2,18 @@
 # This file defines all application routes (Higher priority routes first)
 # ~~~~
 
-# Home page
-GET     /                           controllers.Application.index
+# HomeController page
+GET         /                                        controllers.HomeController.GET_Home()
+GET         /member                                  controllers.MemberController.GET_Member()
+POST        /member                                  controllers.MemberController.POST_Member()
+GET         /logout                                  controllers.MemberController.GET_Logout()
+GET         /profile/:accountId                      controllers.ProfileController.GET_Profile(accountId: Long)
+GET         /profile/endorse-skill/:skillId          controllers.ProfileController.GET_AJAXEndorseSkill(skillId: Long)
+POST        /profile/suggest-skill/:accountId        controllers.ProfileController.POST_AJAXSuggestSkill(accountId: Long)
+POST        /profile/edit-skills                     controllers.ProfileController.POST_AJAXEditSkills()
+POST        /profile/autocomplete-skills             controllers.ProfileController.POST_AJAXRelatedSkills()
 
 # Map static resources from the /public folder to the /assets URL path
-GET     /assets/*file               controllers.Assets.at(path="/public", file)
+GET         /assets/*file                            controllers.Assets.at(path="/public", file)
 
     

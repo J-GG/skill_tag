@@ -1,0 +1,38 @@
+@import play.data.Form
+@import play.api.i18n.Messages
+
+@(form: Form[_], field: String, isArray: Boolean = false, reverseArray: Boolean = false)
+
+@hasError = @{
+    var error = false
+    if(form != null) {
+        if(form.error(field) != null) {
+            error = true
+        }
+        if(isArray && !error) {
+            form(field).indexes().foreach(idx => {
+                if(form.error(field + "[" + idx.toString + "]") != null) {
+                    error = true
+                }
+            })
+        }
+    }
+    error
+}
+
+@if(hasError) {
+    @if(!isArray) {
+        <span class="text-danger">@Messages(form.error(field).message, form.error(field).arguments: _*)</span>
+    } else {
+        @if(form.error(field) != null) {
+            <span class="text-danger">@Messages(form.error(field).message, form.error(field).arguments: _*)</span>
+        }
+        @for(idx : Integer <- if(reverseArray){ form(field).indexes.reverse } else { form(field).indexes.toBuffer }) {
+            @defining(field + "[" + idx + "]") { subField =>
+                @if(form.error(subField) != null) {
+                    <span class="text-danger">@Messages("COMMON.ELEM_NB", if(reverseArray){ form(field).indexes.size - idx } else { idx } + 1): @Messages(form.error(subField).message, form.error(subField).arguments: _*)</span>
+                }
+            }
+        }
+    }
+}

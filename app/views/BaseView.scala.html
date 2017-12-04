@@ -1,0 +1,37 @@
+@(title: String, javaScript: Html)(content: Html)
+
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>@Messages(title)</title>
+        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"/>
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet"/>
+        <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/main.css")"/>
+    </head>
+    <body>
+        <div id="navbar" class="navbar navbar-default navbar-static-top">
+            <div class="container">
+                <ul class="nav navbar-nav">
+                    <li><a href="@routes.HomeController.GET_Home()">@Messages("TITLE.HOME")</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    @if(session.get("id") != null) {
+                        <li><a href="@routes.MemberController.GET_Logout">@Messages("MEMBER.LOGOUT")</a></li>
+                        <li><a href="@routes.ProfileController.GET_Profile(Long.parseLong(session.get("id")))">@Messages("MEMBER.MY_PROFILE")</a></li>
+                    } else {
+                        <li><a href="@routes.MemberController.GET_Member">@Messages("TITLE.MEMBER")</a></li>
+                    }
+                </ul>
+
+            </div>
+        </div>
+        <div class="container">
+            @content
+        </div>
+        <script src="https://code.jquery.com/jquery-3.2.1.min.js" type="text/javascript"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" type="text/javascript"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
+        @javaScript
+    </body>
+</html>
